@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta19
+kind: Config
+metadata:
+  name: '-'
+build:
+  artifacts:
+  - image: adyakonov/hello-app
+    context: hello-py
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - app-config.yaml
+    - deployment.yaml
+    - ingress.yaml
+    - service.yaml
