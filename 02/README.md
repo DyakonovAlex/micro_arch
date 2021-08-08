@@ -70,7 +70,7 @@ $ curl $(minikube ip)/otusapp/adyakonov/user -H "Host: arch.homework" | jq
     "phone": "12345"
   }
 ]
-
+```
 
 Далее, мы можем добавить в /etc/hosts
 
