@@ -6,7 +6,7 @@
 
 ## 02. Основы работы с Kubernetes
 
-[Пример простейшего RESTful CRUD]((02/README.md))
+[Пример простейшего RESTful CRUD](02/README.md)
 
 ## 03. Prometheus, Grafana
 
