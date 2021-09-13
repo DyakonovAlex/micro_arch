@@ -1,0 +1,9 @@
+replicaCount: 2
+
+image: adyakonov/app-service:latest
+
+fullnameOverride: "app"
+
+service:
+  type: NodePort
+  port: 8000
