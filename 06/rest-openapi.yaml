@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+  title: Order Service API
+  description: 'This is a RESTful Order service'
+  version: 1.0.0
+tags:
+- name: user
+  description: Operations about user
+- name: billing
+  description: Operation about deposit
+- name: order
+  description: Access to orders
+- name: notify
+  description: Notification service
+paths:
+  /register:
+    post:
+      tags:
+      - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /login:
+    post:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Invalid username/password supplied
+          content: {}
+  /logout:
+    get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      responses:
+        200:
+          description: successful operation
+          content: {}
+  /auth:
+    get:
+      tags:
+      - user
+      summary: Authentication
+      operationId: authUser
+      responses:
+        200:
+          description: successful operation
+          content: {}
+  /billing/register:
+    post:
+      tags:
+      - billing
+      summary: Create user billing
+      operationId: createBillingUser
+      requestBody:
+        description: Created user object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingUser'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /deposit:
+    post:
+      tags:
+      - billing
+      summary: Create deposit
+      operationId: createDeposit
+      requestBody:
+        description: Created deposit object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Deposit'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /withdraw:
+    post:
+      tags:
+      - billing
+      parameters:
+        - in: query
+          name: sum
+          schema:
+            type: number
+          description: Summa
+      summary: Create deposit
+      operationId: withdraw
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /orders/create:
+    post:
+      tags:
+      - order
+      summary: Create order
+      operationId: createOrder
+      requestBody:
+        description: Created order object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /send-notify:
+    post:
+      tags:
+      - notify
+      parameters:
+        - in: query
+          name: msg
+          schema:
+            type: string
+          description: Summa
+      summary: Create deposit
+      operationId: sendMsg
+      responses:
+        201:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
+    BillingUser:
+      type: object
+      properties:
+        userid:
+          type: integer
+          format: int64
+        nameuser:
+          type: string
+      xml:
+        name: BillingUser
+    Deposit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userid:
+          type: integer
+          format: int64
+        summ:
+          type: number
+          format: float
+      xml:
+        name: Deposit
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        price:
+          type: integer
+          format: int32
+        createDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - canceled
+        complete:
+          type: boolean
+          default: false
+      xml:
+        name: Order

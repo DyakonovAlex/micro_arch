@@ -1,0 +1,135 @@
+asyncapi: 2.2.0
+info:
+  title: Order Service API
+  version: 1.0.0
+  description: "Async Order Service API"
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+defaultContentType: application/json
+channels:
+  gateway/registrationRequested:
+    publish:
+      message:
+        tags:
+          - name: user
+        name: registrationRequested
+        title: Пользователь запросил регистрацию
+        payload:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+        examples:
+          - payload:
+              name: vasya
+              email: pupkin@ge.com
+              phone: '+71002003040'
+              password: 'Jsd28xzd'
+
+  gateway/orderRequested:
+    publish:
+      message:
+        tags:
+          - name: order
+        name: orderRequested
+        title: Пользователь запросил создание заказа
+        payload:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            userId:
+              type: integer
+              format: int64
+            price:
+              type: integer
+              format: int32
+            createDate:
+              type: string
+              format: date-time
+            status:
+              type: string
+              description: Order Status
+              enum:
+              - placed
+              - approved
+              - canceled
+            complete:
+              type: boolean
+              default: false
+        examples:
+          - payload:
+              userId: 1
+              price: 1000
+              createDate: "2021-10-01 00:00:00"
+              status: "placed"
+
+  user-service/userCreated:
+    publish:
+      message:
+        name: userCreated
+        payload:
+           type: object
+           properties:
+             id:
+               type: integer
+               format: int64
+             name:
+               type: string
+             email:
+               type: string
+             password:
+               type: string
+        examples:
+          - payload:
+              id: 42
+              name: vasya
+              email: pupkin@ge.com
+              phone: '+71002003040'
+              password: 'Jsd28xzd'
+
+  order-service/OrderCreated:
+    publish:
+      message:
+        tags:
+          - name: order
+        name: OrderCreated
+        payload:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            userId:
+              type: integer
+              format: int64
+            price:
+              type: integer
+              format: int32
+            createDate:
+              type: string
+              format: date-time
+            status:
+              type: string
+              description: Order Status
+              enum:
+              - placed
+              - approved
+              - canceled
+            complete:
+              type: boolean
+              default: false
+        examples:
+          - payload:
+              id: 34
+              userId: 1
+              price: 1000
+              createDate: "2021-10-01 00:00:00"
+              status: "placed"
+              complete: false
